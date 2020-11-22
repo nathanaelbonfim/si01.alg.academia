@@ -1,7 +1,7 @@
 Program Padaria;
 Uses Crt;
 
-Type aluno = Record
+Type Aluno = Record
     cod: Integer;
     nome: String[80];
     valor: Double;
@@ -10,8 +10,8 @@ Type aluno = Record
 End;
 
 Var { Variáveis globais }
-    alunoMem: aluno;
-    arqalunos: File of aluno;
+    alunoMem: Aluno;
+    arqAlunos: File of Aluno;
     escolha: Integer;
     listaDeStatus: Array [0..3] of Char;
 
@@ -28,12 +28,12 @@ End;
 { Configura o arquivo }
 Procedure configArquivo;
 Begin
-    assign(arqalunos, 'padaria.dat');
+    assign(arqAlunos, 'padaria.dat');
     {$I-}
-    reset(arqalunos);
+    reset(arqAlunos);
     {$I+}
     if IOresult <> 0 then
-        rewrite(arqalunos);
+        rewrite(arqAlunos);
 End;
 
 { Desenha uma linha de  caracates }
@@ -69,7 +69,7 @@ End;
 Procedure encerrarPrograma();
 Begin
     ClrScr();
-    close(arqalunos);
+    close(arqAlunos);
     writeln('=> Programa encerrado');
     mensagemContinuar();
     exit;
@@ -81,9 +81,9 @@ Function menuPrincipal: Integer;
 Begin
     ClrScr();
     menuCabecalho('Padaria do Seu Zé');
-    writeln('| 1. Incluir aluno');
-    writeln('| 2. Alterar aluno');
-    writeln('| 3. Relatório dos alunos');
+    writeln('| 1. Incluir Aluno');
+    writeln('| 2. Alterar Aluno');
+    writeln('| 3. Relatório dos Alunos');
     writeln('| 4. Sobre o autor e o Programa');
     writeln('| 5. Sair ');
     menuLinha();
@@ -96,8 +96,8 @@ End;
 { Grava um registro no arquivo }
 Procedure gravarRegistro();
 Begin
-    write(arqalunos, alunoMem);    
-    writeln('>> aluno cadastrado');
+    write(arqAlunos, alunoMem);    
+    writeln('>> Aluno cadastrado');
     mensagemContinuar();
 End;
 
@@ -218,11 +218,11 @@ Begin
 End;
 
 { Interface para cadastro de um novo aluno }
-Procedure incluiraluno();
+Procedure incluirAluno();
 Begin
-    seek(arqalunos, filesize(arqalunos));
+    seek(arqAlunos, filesize(arqAlunos));
 
-    menuCabecalho('ADICIONAR aluno');
+    menuCabecalho('ADICIONAR PRODUTO');
 
     alunoMem.cod := validarNegativoInt('Código: ');
     alunoMem.nome := validarCaracteres('Nome: ', 80);
@@ -234,7 +234,7 @@ Begin
 End;
 
 { Imprime o aluno da variável alunoMem }
-Procedure imprimealuno();
+Procedure imprimeAluno();
 Begin
     menuLinha();
     writeln('Código: ', alunoMem.cod);
@@ -246,26 +246,26 @@ End;
 
 
 { Verifica se um aluno existe no arquivo e carrega para a memória }
-Function encontraraluno(codigo: Integer): Boolean;
+Function encontrarAluno(codigo: Integer): Boolean;
 Begin
-    seek(arqalunos, 0);
+    seek(arqAlunos, 0);
 
-    while (not eof(arqalunos)) do
+    while (not eof(arqAlunos)) do
     Begin
-        read(arqalunos, alunoMem);
+        read(arqAlunos, alunoMem);
 
         if alunoMem.cod = codigo then
         begin
-            encontraraluno := true;
+            encontrarAluno := true;
             break;
         End;
 
     End;
 
-    encontraraluno := false;
+    encontrarAluno := false;
 End;
 
-Procedure editaraluno();
+Procedure editarAluno();
 Begin
     ClrScr();
     menuCabecalho('Você editará o aluno ');
@@ -281,7 +281,7 @@ Begin
 End;
 
 { Altera as informações de cadastro de um aluno }
-Procedure alteraraluno();
+Procedure alterarAluno();
 Var
     opcaoValida, alunoEncontrado: Boolean;
     codigo: Integer;
@@ -291,16 +291,16 @@ Begin
 
     Repeat
         ClrScr();
-        menuCabecalho('ALTERAR aluno');
+        menuCabecalho('ALTERAR PRODUTO');
         
         codigo := validarNegativoInt('Código do aluno: ');
-        alunoEncontrado := encontraraluno(codigo);
+        alunoEncontrado := encontrarAluno(codigo);
         
         if not alunoEncontrado then
             opcaoValida := true
         else
             begin
-                writeln('aluno não encontrado. Deseja procurar outro? S/N');
+                writeln('Aluno não encontrado. Deseja procurar outro? S/N');
                 read(escolha);
 
                 if (escolha = 'n') OR (escolha = 'N') then
@@ -310,7 +310,7 @@ Begin
 
 
     if alunoEncontrado then
-        editaraluno();
+        editarAluno();
 
     menuLinha();
     mensagemContinuar();
@@ -318,17 +318,17 @@ End;
 
 
 { Relatório dos alunos cadastrados }
-Procedure relatorioalunos();
+Procedure relatorioAlunos();
 Begin
-    seek(arqalunos, 0);
+    seek(arqAlunos, 0);
 
     ClrScr();
-    menuCabecalho('alunoS CADASTRADOS');
+    menuCabecalho('PRODUTOS CADASTRADOS');
 
-    while not eof(arqalunos) do
+    while not eof(arqAlunos) do
     Begin
-        read(arqalunos, alunoMem);
-        imprimealuno();
+        read(arqAlunos, alunoMem);
+        imprimeAluno();
     End;
     menuLinha();
     mensagemContinuar();
@@ -352,9 +352,9 @@ BEGIN
         escolha := menuPrincipal;
 
         Case escolha of
-            1: incluiraluno();
-            2: alteraraluno();
-            3: relatorioalunos();
+            1: incluirAluno();
+            2: alterarAluno();
+            3: relatorioAlunos();
             4: sobre();
             5: encerrarPrograma();
         else
