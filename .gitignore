@@ -1,3 +1,4 @@
+*.swp
 main
 main.o
 main.exe
