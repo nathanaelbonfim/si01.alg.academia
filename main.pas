@@ -4,8 +4,8 @@ Uses Crt;
 Type Aluno = Record
     cod: Integer;
     nome: String[80];
-    valor: Double;
-    qtd: Integer;
+    idade: Integer;
+    sexo: Char;
     status: Char;
 End;
 
@@ -80,7 +80,7 @@ End;
 Function menuPrincipal: Integer;
 Begin
     ClrScr();
-    menuCabecalho('Padaria do Seu Zé');
+    menuCabecalho('academia centro sport');
     writeln('| 1. Incluir Aluno');
     writeln('| 2. Alterar Aluno');
     writeln('| 3. Relatório dos Alunos');
@@ -222,12 +222,11 @@ Procedure incluirAluno();
 Begin
     seek(arqAlunos, filesize(arqAlunos));
 
-    menuCabecalho('ADICIONAR PRODUTO');
+    menuCabecalho('ADICIONAR ALUNO');
 
     alunoMem.cod := validarNegativoInt('Código: ');
     alunoMem.nome := validarCaracteres('Nome: ', 80);
-    alunoMem.valor := validarNegativoDouble('Preço R$ ');
-    alunoMem.qtd := validarNegativoInt('Quantidade: ');
+    alunoMem.idade := validarNegativoInt('Idade: ');
     alunoMem.status := validarStatus(listaDeStatus);
 
     gravarRegistro(); 
@@ -239,8 +238,7 @@ Begin
     menuLinha();
     writeln('Código: ', alunoMem.cod);
     writeln('Nome..: ', alunoMem.nome);
-    writeln('Valor.: ', alunoMem.valor:2:2);
-    writeln('Qtd...: ', alunoMem.qtd);
+    writeln('idade.: ', alunoMem.idade);
     writeln('Status: ', alunoMem.status);
 End;
 
@@ -273,8 +271,7 @@ Begin
     mensagemContinuar();
 
     alunoMem.nome := validarCaracteres('Nome: ', 80);
-    alunoMem.valor := validarNegativoDouble('Preço R$ ');
-    alunoMem.qtd := validarNegativoInt('Quantidade: ');
+    alunoMem.idade := validarNegativoInt('Idade: ');
     alunoMem.status := validarStatus(listaDeStatus);
 
     gravarRegistro();
@@ -323,7 +320,7 @@ Begin
     seek(arqAlunos, 0);
 
     ClrScr();
-    menuCabecalho('PRODUTOS CADASTRADOS');
+    menuCabecalho('ALUNOS CADASTRADOS');
 
     while not eof(arqAlunos) do
     Begin
