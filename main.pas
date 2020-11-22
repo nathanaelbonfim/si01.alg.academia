@@ -38,7 +38,7 @@ End;
 { Configura o arquivo }
 Procedure configArquivo;
 Begin
-    assign(arqAlunos, 'academia.dat');
+    assign(arqAlunos, 'padaria.dat');
     {$I-}
     reset(arqAlunos);
     {$I+}
@@ -101,6 +101,21 @@ Begin
     readln(escolha);
 
     menuPrincipal := escolha;
+End;
+
+{ Menu para escolha do aluno a ser removido }
+Function menuExcluirAluno: Integer;
+Begin
+    ClrScr();
+    menuCabecalho('Excluir aluno');
+    writeln('| 1. Por código');
+    writeln('| 2. Por nome');
+    writeln('| 3. Por status (exclusão lógica)');
+    menuLinha();
+    write('>> Selecione o método de exclusão:');
+    read(escolha);
+
+    menuExcluirAluno := escolha;
 End;
 
 { Grava um registro no arquivo }
@@ -196,6 +211,7 @@ Begin
 End;
 
 { Valida a entrada de um caractere 'binário' [S/N] com base em uma lista }
+{ Atenção: o posições }
 Function validarLista(campo: String; valoresValidos: CaracteresValidos; tamanhoLista: Integer): Char;
 Var
     entrada: Char;
@@ -272,6 +288,18 @@ Begin
     encontrarAluno := false;
 End;
 
+{ Encontra um aluno pelo código e carrega para a variável de memória }
+Procedure pesquisarAlunoCod();
+Begin
+
+End;
+
+{ Encontra um aluno pelo nome e carrega para a variável de memória }
+Procedure pesquisarAlunoNome();
+Begin
+
+End;
+
 Procedure editarAluno();
 Begin
     ClrScr();
@@ -287,7 +315,7 @@ Begin
 End;
 
 { Altera as informações de cadastro de um aluno }
-Procedure alterarAluno();
+Procedure alterarDadosAluno();
 Var
     opcaoValida, alunoEncontrado: Boolean;
     codigo: Integer;
@@ -297,7 +325,7 @@ Begin
 
     Repeat
         ClrScr();
-        menuCabecalho('ALTERAR PRODUTO');
+        menuCabecalho('ALTERAR DADOS DO ALUNO');
         
         codigo := validarNegativoInt('Código do aluno: ');
         alunoEncontrado := encontrarAluno(codigo);
@@ -320,6 +348,48 @@ Begin
 
     menuLinha();
     mensagemContinuar();
+End;
+
+{ Exclui um aluno com base no código }
+Procedure excluirAlunoCod();
+Var
+    codigo: Integer;
+Begin
+    
+End;
+
+{ Exclui um aluno com base no nome }
+Procedure excluirAlunoNome();
+Var
+    nome: String;
+Begin
+    
+End;
+
+Procedure excluirAlunoStatus();
+Begin
+
+End;
+
+{ Exclui um aluno por ID, nome ou status (inativo/ativo) }
+Procedure excluirAluno();
+Var
+    opcaoValida: Boolean;
+Begin
+    opcaoValida := false;
+
+    Repeat 
+        escolha := menuExcluirAluno();
+
+        case escolha of
+            1: excluirAlunoCod();
+            2: excluirAlunoNome();
+            3: excluirAlunoStatus();
+        else
+            opcaoInvalida();
+        end;
+
+    Until opcaoValida = true;
 End;
 
 
@@ -357,12 +427,15 @@ BEGIN
         
         escolha := menuPrincipal;
 
-        Case escolha of
+        case escolha of
             1: incluirAluno();
-            2: alterarAluno();
-            3: relatorioAlunos();
-            4: sobre();
-            5: encerrarPrograma();
+            2: alterarDadosAluno();
+            3: excluirAluno();
+            4: pesquisarAlunoCod();
+            5: pesquisarAlunoNome();
+            6: relatorioAlunos();
+            7: sobre();
+            8: encerrarPrograma();
         else
             opcaoInvalida();
         end;
