@@ -1,3 +1,4 @@
+
 # Funções para implementar
 
 -[ ] pesquisarAlunoCod()
@@ -11,3 +12,14 @@
         > Incluir o sexo e idade
         >
 -[ ] 
+
+
+# Funções revisadas
+-[x] incluirAluno() 
+-[ ] alterarDadosAluno()
+-[ ] excluirAluno()
+-[ ] pesquisarAlunoCod()
+-[ ] pesquisarAlunoNome()
+-[ ] relatorioAlunos()
+-[ ] sobre()
+-[ ] encerrarPrograma();

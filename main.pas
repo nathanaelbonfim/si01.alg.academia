@@ -247,11 +247,12 @@ Procedure incluirAluno();
 Begin
     seek(arqAlunos, filesize(arqAlunos));
 
-    menuCabecalho('ADICIONAR ALUNO');
+    menuCabecalho('CADASTRAR ALUNO');
 
-    alunoMem.cod := validarNegativoInt('Código: ');
-    alunoMem.nome := validarCaracteres('Nome: ', 80);
-    alunoMem.idade := validarNegativoInt('Idade: ');
+    alunoMem.cod    := validarNegativoInt('Código: ');
+    alunoMem.nome   := validarCaracteres('Nome: ', 80);
+    alunoMem.idade  := validarNegativoInt('Idade: ');
+    alunoMem.sexo   := validarLista('Sexo do aluno [M-asculino/F-eminino]: ', sexoValido, 4);
     alunoMem.status := validarLista('Status do aluno [A-Ativo/I-nativo]: ', statusValido, 4);
 
     gravarRegistro(); 
