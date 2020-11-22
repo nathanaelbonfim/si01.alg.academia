@@ -13,11 +13,17 @@ Var { Variáveis globais }
     alunoMem: Aluno;
     arqAlunos: File of Aluno;
     escolha: Integer;
+    listaSexo: Array [0..3] of Char;
     listaDeStatus: Array [0..3] of Char;
 
 Procedure inicializarGlobais();
 Begin
     escolha := 0;
+    
+    listaSexo[0] := 'F';
+    listaSexo[1] := 'f';
+    listaSexo[2] := 'M';
+    listaSexo[3] := 'm';
 
     listaDeStatus[0] := 'A';
     listaDeStatus[1] := 'a';
