@@ -11,11 +11,11 @@
 -[ ] alterarDadosAluno() 
         > Incluir o sexo e idade
         >
--[ ] 
-
+-[ ] imprimirAluno()
+        > Adicionar o sexo do aluno
 
 # Funções revisadas
--[x] incluirAluno() 
+-[ ] incluirAluno() 
 -[ ] alterarDadosAluno()
 -[ ] excluirAluno()
 -[ ] pesquisarAlunoCod()

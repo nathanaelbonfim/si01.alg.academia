@@ -82,7 +82,7 @@ Begin
     close(arqAlunos);
     writeln('=> Programa encerrado');
     mensagemContinuar();
-    END. 
+    exit;
 End;
 
 
@@ -92,13 +92,10 @@ Begin
     ClrScr();
     menuCabecalho('ACADEMIA CENTRO SPORT');
     writeln('| 1. Incluir Aluno');
-    writeln('| 2. Alterar dados do aluno');
-    writeln('| 3. Excluir aluno');
-    writeln('| 4. Pesquisar aluno por código');
-    writeln('| 5. Pesquisar aluno por nome');
-    writeln('| 6. Relatório de alunos');
-    writeln('| 7. Sobre ');
-    writeln('| 8. Sair ');
+    writeln('| 2. Alterar Aluno');
+    writeln('| 3. Relatório dos Alunos');
+    writeln('| 4. Sobre o autor e o Programa');
+    writeln('| 5. Sair ');
     menuLinha();
     write('ESCOLHA: ');
     readln(escolha);
