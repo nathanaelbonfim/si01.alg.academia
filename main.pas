@@ -82,7 +82,7 @@ Begin
     close(arqAlunos);
     writeln('=> Programa encerrado');
     mensagemContinuar();
-    END. 
+    exit; 
 End;
 
 
