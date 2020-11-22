@@ -9,32 +9,36 @@ Type Aluno = Record
     status: Char;
 End;
 
+Type CaracteresValidos = Record
+    lista: Array [0..3] of Char;
+End;
+
 Var { Variáveis globais }
     alunoMem: Aluno;
     arqAlunos: File of Aluno;
     escolha: Integer;
-    listaSexo: Array [0..3] of Char;
-    listaDeStatus: Array [0..3] of Char;
+    sexoValido: CaracteresValidos;
+    statusValido: CaracteresValidos;
 
 Procedure inicializarGlobais();
 Begin
     escolha := 0;
     
-    listaSexo[0] := 'F';
-    listaSexo[1] := 'f';
-    listaSexo[2] := 'M';
-    listaSexo[3] := 'm';
+    sexoValido.lista[0] := 'F';
+    sexoValido.lista[1] := 'f';
+    sexoValido.lista[2] := 'M';
+    sexoValido.lista[3] := 'm';
 
-    listaDeStatus[0] := 'A';
-    listaDeStatus[1] := 'a';
-    listaDeStatus[2] := 'i';
-    listaDeStatus[3] := 'I';
+    statusValido.lista[0] := 'A';
+    statusValido.lista[1] := 'a';
+    statusValido.lista[2] := 'i';
+    statusValido.lista[3] := 'I';
 End;
 
 { Configura o arquivo }
 Procedure configArquivo;
 Begin
-    assign(arqAlunos, 'padaria.dat');
+    assign(arqAlunos, 'academia.dat');
     {$I-}
     reset(arqAlunos);
     {$I+}
@@ -86,7 +90,7 @@ End;
 Function menuPrincipal: Integer;
 Begin
     ClrScr();
-    menuCabecalho('academia centro sport');
+    menuCabecalho('ACADEMIA CENTRO SPORT');
     writeln('| 1. Incluir Aluno');
     writeln('| 2. Alterar Aluno');
     writeln('| 3. Relatório dos Alunos');
@@ -136,9 +140,9 @@ Begin
 End;
 
 { Validação de números reais negativos }
-Function validarNegativoDouble(campo: String): Double;
+Function validarNegativoReal(campo: String): Real;
 Var
-    entrada: Double;
+    entrada: Real;
     confirmacao: Boolean;
 Begin
     confirmacao := false;
@@ -160,7 +164,7 @@ Begin
 
     Until confirmacao = true;
 
-    validarNegativoDouble := entrada;
+    validarNegativoReal := entrada;
 End;
 
 { Valida a quantidade de caracateres no nome do aluno }
@@ -191,8 +195,8 @@ Begin
     validarCaracteres := entrada;
 End;
 
-{ Valida a entrada do status do aluno }
-Function validarStatus(lista: Array of Char): Char;
+{ Valida a entrada de um caractere 'binário' [S/N] com base em uma lista }
+Function validarLista(campo: String; valoresValidos: CaracteresValidos; tamanhoLista: Integer): Char;
 Var
     entrada: Char;
     confirmacao: Boolean;
@@ -202,25 +206,24 @@ Begin
 
     Repeat 
         ClrScr();
-        write('Status do aluno [A-Ativo/I-nativo]: ');
+        write(campo);
         readln(entrada);
 
-        for i := 0 to length(lista) do
+        for i := 0 to (tamanhoLista - 1) do
         Begin
-            if lista[i] = entrada then
+            if valoresValidos.lista[i] = entrada then
                 confirmacao := true;
         End;
 
         if not confirmacao then
         Begin
-            writeln('Status inválido. Utilize "I" ou "A"');
+            writeln('Dados inválidos. Digite novamente.');
             mensagemContinuar();
         End;
 
     Until confirmacao = true;
 
-    validarStatus := UpCase(entrada);
-
+    validarLista := UpCase(entrada);
 End;
 
 { Interface para cadastro de um novo aluno }
@@ -233,7 +236,7 @@ Begin
     alunoMem.cod := validarNegativoInt('Código: ');
     alunoMem.nome := validarCaracteres('Nome: ', 80);
     alunoMem.idade := validarNegativoInt('Idade: ');
-    alunoMem.status := validarStatus(listaDeStatus);
+    alunoMem.status := validarLista('Status do aluno [A-Ativo/I-nativo]: ', statusValido, 4);
 
     gravarRegistro(); 
 End;
@@ -278,7 +281,7 @@ Begin
 
     alunoMem.nome := validarCaracteres('Nome: ', 80);
     alunoMem.idade := validarNegativoInt('Idade: ');
-    alunoMem.status := validarStatus(listaDeStatus);
+    alunoMem.status := validarLista('Status do aluno [A-Ativo/I-nativo]: ', statusValido, 4);
 
     gravarRegistro();
 End;
