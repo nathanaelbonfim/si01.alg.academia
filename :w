@@ -2,16 +2,16 @@
 # Funções para implementar
 
 -[ ] pesquisarAlunoCod()
--[x] pesquisarAlunoNome()
--[x] relatorioAlunos()
+-[ ] pesquisarAlunoNome()
+-[ ] relatorioAlunos()
 
 # Funções para atualizar
--[x] incluirAluno()
+-[ ] incluirAluno()
         > Adicionar a opção 'sexo'
 -[ ] alterarDadosAluno() 
         > Incluir o sexo e idade
         >
--[x] imprimirAluno()
+-[ ] imprimirAluno()
         > Adicionar o sexo do aluno
 
 # Funções revisadas
