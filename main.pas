@@ -450,6 +450,6 @@ BEGIN
             opcaoInvalida();
         end;
         
-    Until escolha = 5;
+    Until escolha = 8;
     
 END.
