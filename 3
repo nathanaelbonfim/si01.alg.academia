@@ -322,7 +322,6 @@ Begin
 
     alunoMem.nome := validarCaracteres('Nome: ', 80);
     alunoMem.idade := validarNegativoInt('Idade: ');
-    alunoMem.sexo   := validarLista('Sexo do aluno [M-asculino/F-eminino]: ', sexoValido, 4);
     alunoMem.status := validarLista('Status do aluno [A-Ativo/I-nativo]: ', statusValido, 4);
 
     gravarRegistro();
@@ -342,7 +341,7 @@ Begin
         
         alunoEncontrado := pesquisarAlunoCod();
         
-        if alunoEncontrado then
+        if not alunoEncontrado then
             opcaoValida := true
         else
             begin
