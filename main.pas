@@ -1,4 +1,4 @@
-Program Padaria;
+Program Academia;
 Uses Crt;
 
 Type Aluno = Record
@@ -268,6 +268,7 @@ Begin
     writeln('Código: ', alunoMem.cod);
     writeln('Nome..: ', alunoMem.nome);
     writeln('idade.: ', alunoMem.idade);
+    writeln('sexo..: ', alunoMem.sexo);
     writeln('Status: ', alunoMem.status);
 End;
 
@@ -275,7 +276,7 @@ End;
 { Verifica se um aluno existe no arquivo e carrega para a memória }
 Function encontrarAluno(codigo: Integer): Boolean;
 Begin
-    encontrarAluno := true;
+	encontrarAluno :=true;
 End;
 
 { Encontra um aluno pelo código e carrega para a variável de memória }
@@ -423,8 +424,13 @@ End;
 { Informações sobre o programa}
 Procedure sobre(); 
 Begin
-    writeln('Acadêmico: Nathanael Cavalcanti Bonfim - 2020');
+		writeln('Acadêmico: Yohann Alexandre Gonçalves Silva - RA:00204966');
+    writeln('Acadêmico: Nathanael Cavalcanti Bonfim - RA.....:00210465');
+    writeln('Vitor Eduardo da Silva Gibim - RA...............:00212191');
     writeln('Disciplina: Algoritmos');
+    writeln('22/11/2020');
+    menuLinha();
+    mensagemContinuar();
 
 End;
 
