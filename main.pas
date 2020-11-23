@@ -1,4 +1,4 @@
-Program Padaria;
+Program Academia;
 Uses Crt;
 
 Type Aluno = Record
@@ -38,7 +38,7 @@ End;
 { Configura o arquivo }
 Procedure configArquivo;
 Begin
-    assign(arqAlunos, 'academia.dat');
+    assign(arqAlunos, 'padaria.dat');
     {$I-}
     reset(arqAlunos);
     {$I+}
@@ -82,7 +82,7 @@ Begin
     close(arqAlunos);
     writeln('=> Programa encerrado');
     mensagemContinuar();
-    exit;
+    exit; 
 End;
 
 
@@ -92,15 +92,33 @@ Begin
     ClrScr();
     menuCabecalho('ACADEMIA CENTRO SPORT');
     writeln('| 1. Incluir Aluno');
-    writeln('| 2. Alterar Aluno');
-    writeln('| 3. Relatório dos Alunos');
-    writeln('| 4. Sobre o autor e o Programa');
-    writeln('| 5. Sair ');
+    writeln('| 2. Alterar dados do aluno');
+    writeln('| 3. Excluir aluno');
+    writeln('| 4. Pesquisar aluno por código');
+    writeln('| 5. Pesquisar aluno por nome');
+    writeln('| 6. Relatório de alunos');
+    writeln('| 7. Sobre ');
+    writeln('| 8. Sair ');
     menuLinha();
     write('ESCOLHA: ');
     readln(escolha);
 
     menuPrincipal := escolha;
+End;
+
+{ Menu para escolha do aluno a ser removido }
+Function menuExcluirAluno: Integer;
+Begin
+    ClrScr();
+    menuCabecalho('Excluir aluno');
+    writeln('| 1. Por código');
+    writeln('| 2. Por nome');
+    writeln('| 3. Por status (exclusão lógica)');
+    menuLinha();
+    write('>> Selecione o método de exclusão:');
+    read(escolha);
+
+    menuExcluirAluno := escolha;
 End;
 
 { Grava um registro no arquivo }
@@ -196,6 +214,7 @@ Begin
 End;
 
 { Valida a entrada de um caractere 'binário' [S/N] com base em uma lista }
+{ Atenção: o posições }
 Function validarLista(campo: String; valoresValidos: CaracteresValidos; tamanhoLista: Integer): Char;
 Var
     entrada: Char;
@@ -231,11 +250,12 @@ Procedure incluirAluno();
 Begin
     seek(arqAlunos, filesize(arqAlunos));
 
-    menuCabecalho('ADICIONAR ALUNO');
+    menuCabecalho('CADASTRAR ALUNO');
 
-    alunoMem.cod := validarNegativoInt('Código: ');
-    alunoMem.nome := validarCaracteres('Nome: ', 80);
-    alunoMem.idade := validarNegativoInt('Idade: ');
+    alunoMem.cod    := validarNegativoInt('Código: ');
+    alunoMem.nome   := validarCaracteres('Nome: ', 80);
+    alunoMem.idade  := validarNegativoInt('Idade: ');
+    alunoMem.sexo   := validarLista('Sexo do aluno [M-asculino/F-eminino]: ', sexoValido, 4);
     alunoMem.status := validarLista('Status do aluno [A-Ativo/I-nativo]: ', statusValido, 4);
 
     gravarRegistro(); 
@@ -248,6 +268,7 @@ Begin
     writeln('Código: ', alunoMem.cod);
     writeln('Nome..: ', alunoMem.nome);
     writeln('idade.: ', alunoMem.idade);
+    writeln('sexo..: ', alunoMem.sexo);
     writeln('Status: ', alunoMem.status);
 End;
 
@@ -255,6 +276,18 @@ End;
 { Verifica se um aluno existe no arquivo e carrega para a memória }
 Function encontrarAluno(codigo: Integer): Boolean;
 Begin
+	encontrarAluno :=true;
+End;
+
+{ Encontra um aluno pelo código e carrega para a variável de memória }
+Function pesquisarAlunoCod(): Boolean;
+Var
+    codigo: Integer;
+    alunoEncontrado: Boolean;
+Begin
+    alunoEncontrado := false;
+    codigo := validarNegativoInt('Código do aluno: ');
+
     seek(arqAlunos, 0);
 
     while (not eof(arqAlunos)) do
@@ -263,13 +296,21 @@ Begin
 
         if alunoMem.cod = codigo then
         begin
-            encontrarAluno := true;
+            alunoEncontrado := true;
             break;
         End;
-
     End;
 
-    encontrarAluno := false;
+    menuLinha();
+    mensagemContinuar();
+    
+    pesquisarAlunoCod := alunoEncontrado;
+End;
+
+{ Encontra um aluno pelo nome e carrega para a variável de memória }
+Procedure pesquisarAlunoNome();
+Begin
+
 End;
 
 Procedure editarAluno();
@@ -287,20 +328,18 @@ Begin
 End;
 
 { Altera as informações de cadastro de um aluno }
-Procedure alterarAluno();
+Procedure alterarDadosAluno();
 Var
     opcaoValida, alunoEncontrado: Boolean;
-    codigo: Integer;
     escolha: Char;
 Begin
     opcaoValida := false;
 
     Repeat
         ClrScr();
-        menuCabecalho('ALTERAR PRODUTO');
+        menuCabecalho('ALTERAR DADOS DO ALUNO');
         
-        codigo := validarNegativoInt('Código do aluno: ');
-        alunoEncontrado := encontrarAluno(codigo);
+        alunoEncontrado := pesquisarAlunoCod();
         
         if not alunoEncontrado then
             opcaoValida := true
@@ -320,6 +359,48 @@ Begin
 
     menuLinha();
     mensagemContinuar();
+End;
+
+{ Exclui um aluno com base no código }
+Procedure excluirAlunoCod();
+Var
+    codigo: Integer;
+Begin
+    
+End;
+
+{ Exclui um aluno com base no nome }
+Procedure excluirAlunoNome();
+Var
+    nome: String;
+Begin
+    
+End;
+
+Procedure excluirAlunoStatus();
+Begin
+
+End;
+
+{ Exclui um aluno por ID, nome ou status (inativo/ativo) }
+Procedure excluirAluno();
+Var
+    opcaoValida: Boolean;
+Begin
+    opcaoValida := false;
+
+    Repeat 
+        escolha := menuExcluirAluno();
+
+        case escolha of
+            1: excluirAlunoCod();
+            2: excluirAlunoNome();
+            3: excluirAlunoStatus();
+        else
+            opcaoInvalida();
+        end;
+
+    Until opcaoValida = true;
 End;
 
 
@@ -343,8 +424,13 @@ End;
 { Informações sobre o programa}
 Procedure sobre(); 
 Begin
-    writeln('Acadêmico: Nathanael Cavalcanti Bonfim - 2020');
+		writeln('Acadêmico: Yohann Alexandre Gonçalves Silva - RA:00204966');
+    writeln('Acadêmico: Nathanael Cavalcanti Bonfim - RA.....:00210465');
+    writeln('Vitor Eduardo da Silva Gibim - RA...............:00212191');
     writeln('Disciplina: Algoritmos');
+    writeln('22/11/2020');
+    menuLinha();
+    mensagemContinuar();
 
 End;
 
@@ -357,16 +443,19 @@ BEGIN
         
         escolha := menuPrincipal;
 
-        Case escolha of
+        case escolha of
             1: incluirAluno();
-            2: alterarAluno();
-            3: relatorioAlunos();
-            4: sobre();
-            5: encerrarPrograma();
+            2: alterarDadosAluno();
+            3: excluirAluno();
+            4: pesquisarAlunoCod();
+            5: pesquisarAlunoNome();
+            6: relatorioAlunos();
+            7: sobre();
+            8: encerrarPrograma();
         else
             opcaoInvalida();
         end;
         
-    Until escolha = 5;
+    Until escolha = 8;
     
 END.
