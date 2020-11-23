@@ -386,21 +386,12 @@ End;
 
 { Exclui um aluno por ID, nome ou status (inativo/ativo) }
 Procedure excluirAluno();
-Var
-    opcaoValida: Boolean;
-Begin
-    opcaoValida := false;
+begin
+writeln('em contrução');
+menuLinha();
+mensagemContinuar();
+End;
 
-    Repeat 
-        escolha := menuExcluirAluno();
-
-        case escolha of
-            1: excluirAlunoCod();
-            2: excluirAlunoNome();
-            3: excluirAlunoStatus();
-        else
-            opcaoInvalida();
-        end;
 
     Until opcaoValida = true;
 End;
