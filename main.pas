@@ -356,6 +356,7 @@ Begin
 
 
     if alunoEncontrado then
+        seek(arqAlunos, filepos(arqAlunos) -1);
         editarAluno();
 
     menuLinha();
