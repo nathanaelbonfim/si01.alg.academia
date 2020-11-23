@@ -280,7 +280,7 @@ Begin
 End;
 
 { Encontra um aluno pelo código e carrega para a variável de memória }
-Function pesquisarAlunoCod(): Boolean;
+Function pesquisarAlunoCod(imprimir: Boolean): Boolean;
 Var
     codigo, i: Integer;
     alunoEncontrado: Boolean;
@@ -301,6 +301,9 @@ Begin
         End;
     End;
 
+    if imprimir then
+        imprimeAluno();
+
     menuLinha();
     mensagemContinuar();
     
@@ -309,8 +312,39 @@ End;
 
 { Encontra um aluno pelo nome e carrega para a variável de memória }
 Procedure pesquisarAlunoNome();
+Var
+    i: Integer;
+    nome: String;
+    alunoEncontrado, imprimir: Boolean;
 Begin
+    nome := validarCaracteres('Nome: ', 80);
+    imprimir := true;
 
+    seek(arqAlunos, 0);
+
+    for i := 0 to FileSize(arqAlunos) do
+    Begin
+        read(arqAlunos, alunoMem);
+
+        if alunoMem.nome = nome then
+        begin
+            alunoEncontrado := true;
+            break;
+        End;
+    End;
+
+    if not alunoEncontrado then
+    begin
+        writeln('Aluno não encontrado');
+        mensagemContinuar();
+    end;
+
+    if imprimir then
+        imprimeAluno();
+
+    menuLinha();
+    mensagemContinuar();
+    
 End;
 
 Procedure editarAluno();
@@ -340,7 +374,7 @@ Begin
         ClrScr();
         menuCabecalho('ALTERAR DADOS DO ALUNO');
         
-        alunoEncontrado := pesquisarAlunoCod();
+        alunoEncontrado := pesquisarAlunoCod(false);
         
         if alunoEncontrado then
             opcaoValida := true
@@ -356,6 +390,7 @@ Begin
 
 
     if alunoEncontrado then
+        seek(arqAlunos, filepos(arqAlunos) -1);
         editarAluno();
 
     menuLinha();
@@ -385,25 +420,11 @@ End;
 
 { Exclui um aluno por ID, nome ou status (inativo/ativo) }
 Procedure excluirAluno();
-Var
-    opcaoValida: Boolean;
-Begin
-    opcaoValida := false;
-
-    Repeat 
-        escolha := menuExcluirAluno();
-
-        case escolha of
-            1: excluirAlunoCod();
-            2: excluirAlunoNome();
-            3: excluirAlunoStatus();
-        else
-            opcaoInvalida();
-        end;
-
-    Until opcaoValida = true;
+begin
+writeln('em contrução');
+menuLinha();
+mensagemContinuar();
 End;
-
 
 { Relatório dos alunos cadastrados }
 Procedure relatorioAlunos();
@@ -450,7 +471,7 @@ BEGIN
             1: incluirAluno();
             2: alterarDadosAluno();
             3: excluirAluno();
-            4: pesquisarAlunoCod();
+            4: pesquisarAlunoCod(true);
             5: pesquisarAlunoNome();
             6: relatorioAlunos();
             7: sobre();
