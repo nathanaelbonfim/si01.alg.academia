@@ -275,6 +275,7 @@ End;
 { Verifica se um aluno existe no arquivo e carrega para a memória }
 Function encontrarAluno(codigo: Integer): Boolean;
 Begin
+    encontrarAluno := true;
 End;
 
 { Encontra um aluno pelo código e carrega para a variável de memória }
